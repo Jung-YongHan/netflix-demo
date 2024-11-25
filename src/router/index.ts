@@ -1,11 +1,24 @@
 import { createWebHistory, createRouter } from "vue-router";
-import App from "../App.vue";
+import MainPage from "../views/main_page/MainPage.vue";
+import SigninPage from "../views/singin_page/SigninPage.vue";
+import SignupPage from "../views/signup_page/SignupPage.vue";
 
 const routes = [
     {
-        path: "/경로",
-        component: App,
-    }
+        path: "/",
+        name: "MainPage",
+        component: MainPage
+    },
+    {
+        path: "/signin",
+        name: "SigninPage",
+        component: SigninPage,
+    },
+    {
+        path: "/signup",
+        name: "SignupPage",
+        component: SignupPage,
+    },
 ];
 
 const router = createRouter({
