@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import SigninPage from "./views/singin_page/SigninPage.vue";
 </script>
 
 <template>
-  <SigninPage/>
+  <router-view :key="$route.fullpath"/>
 </template>
 
 <style scoped>

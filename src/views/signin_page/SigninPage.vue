@@ -6,7 +6,7 @@
         <div class="mb-3">
           <FloatLabel variant="in">
             <InputText class="form-control" id="in_label" v-model="email" variant="filled" />
-            <label for="in_label">이메일 주소 또는 휴대폰 번호</label>
+            <label for="in_label">이메일 주소</label>
           </FloatLabel>
         </div>
         <div class="mb-3">
@@ -17,7 +17,7 @@
         </div>
         <div class="mb-3 d-flex align-items-center">
           <Checkbox v-model="rememberMe" inputId="remember-me" name="remember-me" value="Normal" />
-          <label for="remember-me" class="ms-2">로그인 유지</label>
+          <label for="remember-me" class="ms-2 text-white">로그인 유지</label>
         </div>
         <div v-if="errorMessage" class="text-danger mb-3">
           {{ errorMessage }}
@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import FloatLabel from "primevue/floatlabel";
 import InputText from "primevue/inputtext";
