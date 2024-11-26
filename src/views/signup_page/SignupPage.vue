@@ -22,7 +22,7 @@
           </FloatLabel>
         </div>
         <div class="mb-3 d-flex align-items-center">
-          <Checkbox v-model="agreeToTerms" inputId="agree-to-terms" />
+          <Checkbox v-model="agreeToTerms" inputId="agree-to-terms" name="agree-to-terms" value="agree-to-terms" />
           <label for="agree-to-terms" class="ms-2 text-white">약관에 동의합니다</label>
         </div>
         <div v-if="errorMessage" class="text-danger mb-3">
@@ -66,8 +66,14 @@ const handleSignup = () => {
     errorMessage.value = '약관에 동의하셔야 회원가입이 가능합니다.';
     return;
   }
+  if (localStorage.getItem(email.value)) {
+    errorMessage.value = '이미 사용 중인 이메일입니다.';
+    return;
+  }
 
-  // 회원가입 성공 시 로그인 페이지로 이동
+  // 이메일이 중복되지 않은 경우 회원가입 성공
+  localStorage.setItem(email.value, password.value);
+  errorMessage.value = '';
   navigateToSignIn()
 };
 
