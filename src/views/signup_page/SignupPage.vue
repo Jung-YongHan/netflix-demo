@@ -44,6 +44,9 @@ import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import {useBaseRouter} from "../../router/useBaseRouters.ts";
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
 
 const email = ref('');
 const password = ref('');
@@ -74,7 +77,12 @@ const handleSignup = () => {
   // 이메일이 중복되지 않은 경우 회원가입 성공
   localStorage.setItem(email.value, password.value);
   errorMessage.value = '';
+  showSuccess()
   navigateToSignIn()
+};
+
+const showSuccess = () => {
+  toast.add({ severity: 'success', summary: '회원가입 성공', detail: '회원가입에 성공하였습니다!', life: 3000 });
 };
 
 const validateEmail = (email) => {

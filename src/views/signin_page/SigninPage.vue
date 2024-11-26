@@ -16,7 +16,7 @@
           </FloatLabel>
         </div>
         <div class="mb-3 d-flex align-items-center">
-          <Checkbox v-model="rememberMe" inputId="remember-me" name="remember-me" value="Normal" />
+          <Checkbox v-model="rememberMe" inputId="remember-me" name="remember-me" value="remember-me" />
           <label for="remember-me" class="ms-2 text-white">로그인 유지</label>
         </div>
         <div v-if="errorMessage" class="text-danger mb-3">
@@ -38,6 +38,9 @@ import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button"
 import {useBaseRouter} from "../../router/useBaseRouters.ts";
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
 
 const email = ref('');
 const password = ref('');
@@ -47,21 +50,35 @@ const errorMessage = ref('');
 const {navigateToMain, navigateToSignUp} = useBaseRouter()
 
 const handleLogin = () => {
-  if (validateEmail(email.value)) {
-    if (email.value === 'test@example.com' && password.value === 'password123') {
-      if (rememberMe.value) {
-        localStorage.setItem('email', email.value);
-        localStorage.setItem('password', password.value);
-      } else {
-
-      }
-      navigateToMain()
-    } else {
-      errorMessage.value = '아이디 또는 비밀번호가 잘못되었습니다.';
-    }
-  } else {
+  if(!validateEmail(email.value)) {
+    // 이메일 형식이 아닐 때
     errorMessage.value = '유효한 이메일 형식이 아닙니다.';
+    return;
   }
+
+  const storedPassword = localStorage.getItem(email.value);
+
+  if (!storedPassword) {
+    // 이메일이 존재하지 않을 때
+    errorMessage.value = '등록되지 않은 이메일입니다.';
+    return;
+  }
+
+  if (storedPassword !== password.value) {
+    // 비밀번호가 일치하지 않을 때
+    errorMessage.value = '비밀번호가 일치하지 않습니다.';
+    return;
+  }
+
+  // 로그인 성공
+  localStorage.setItem('remember_me', rememberMe.value ? 'true' : 'false');
+  errorMessage.value = '';
+  showSuccess()
+  navigateToMain()
+};
+
+const showSuccess = () => {
+  toast.add({ severity: 'success', summary: '로그인 성공', detail: '로그인에 성공하였습니다!', life: 3000 });
 };
 
 const validateEmail = (email) => {
