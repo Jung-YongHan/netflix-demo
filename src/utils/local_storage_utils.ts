@@ -26,17 +26,21 @@ export function getWithExpiry(key: string) {
   }
 
   // 만료되지 않았다면 value 반환
-  return item.value;
+  return item.expiresAt;
 }
 
 export function checkIsLoggedIn() {
   const rememberMe = localStorage.getItem("remember_me");
   const isLoggedIn = getWithExpiry("is_logged_in");
-
+  console.log(rememberMe);
+  console.log(isLoggedIn);
   if (
-    (rememberMe === "true" && !isLoggedIn) ||
-    (rememberMe !== "true" && isLoggedIn)
+    (rememberMe === "true" && isLoggedIn === null) ||
+    (rememberMe !== "true" && isLoggedIn === null)
   ) {
+    localStorage.removeItem("remember_me");
     router.push({ name: "SigninPage" });
+  } else {
+    router.push({ name: "MainPage" });
   }
 }

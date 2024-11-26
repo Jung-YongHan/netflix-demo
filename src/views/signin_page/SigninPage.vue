@@ -68,7 +68,6 @@ import Button from "primevue/button";
 import { useBaseRouter } from "../../router/useBaseRouters.ts";
 import { useToast } from "primevue/usetoast";
 import { setWithExpiry } from "../../utils/local_storage_utils.ts";
-import Header from "../components/Header.vue";
 
 const toast = useToast();
 
