@@ -15,9 +15,7 @@
     <nav class="menu flex-grow-1">
       <ul class="menu-list d-flex list-unstyled mb-0">
         <li class="menu-item me-4">
-          <a href="#" class="text-white" @click.prevent="navigateToMain"
-            >메인</a
-          >
+          <a href="#" class="text-white" @click.prevent="navigateToMain">홈</a>
         </li>
         <li class="menu-item me-4">
           <a href="#" class="text-white" @click.prevent="navigateToPopular"
