@@ -1,5 +1,3 @@
-import router from "../router";
-
 export function setEmailWithExpiry(email: string, expiryTime: number) {
   const currentTime = new Date().getTime();
   const data = {
