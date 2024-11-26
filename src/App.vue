@@ -3,8 +3,8 @@ import Toast from "primevue/toast";
 </script>
 
 <template>
-  <Toast/>
-  <router-view/>
+  <Toast />
+  <router-view />
 </template>
 
 <style scoped>
