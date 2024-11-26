@@ -16,9 +16,14 @@
 import { onMounted } from "vue";
 import { checkIsLoggedIn } from "../../utils/local_storage_utils.ts";
 import Header from "../components/Header.vue";
+import { useBaseRouter } from "../../router/useBaseRouters.ts";
+
+const { navigateToSignIn } = useBaseRouter();
 
 onMounted(() => {
-  checkIsLoggedIn();
+  if (!checkIsLoggedIn()) {
+    navigateToSignIn();
+  }
 });
 </script>
 

@@ -67,7 +67,7 @@ import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import { useBaseRouter } from "../../router/useBaseRouters.ts";
 import { useToast } from "primevue/usetoast";
-import { setWithExpiry } from "../../utils/local_storage_utils.ts";
+import { setEmailWithExpiry } from "../../utils/local_storage_utils.ts";
 
 const toast = useToast();
 
@@ -102,9 +102,9 @@ const handleLogin = () => {
   // 로그인 성공
   localStorage.setItem("remember_me", rememberMe.value ? "true" : "false");
   if (rememberMe.value) {
-    setWithExpiry("is_logged_in", 7 * 24 * 60 * 60 * 1000); // 1주일
+    setEmailWithExpiry(email.value, 7 * 24 * 60 * 60 * 1000); // 1주일
   } else {
-    setWithExpiry("is_logged_in", 60 * 60 * 1000); // 1시간
+    setEmailWithExpiry(email.value, 60 * 60 * 1000); // 1시간
   }
   errorMessage.value = "";
   showSuccess();

@@ -39,10 +39,13 @@
 
     <!-- 사용자 정보 -->
     <div class="user-info d-flex align-items-center">
-      <span v-if="isLoggedIn" class="text-white me-3"
+      <span v-if="userEmail !== ''" class="text-white me-3"
         >안녕하세요, {{ userEmail }}</span
       >
-      <Button v-if="isLoggedIn" class="p-button-danger" @click="handleLogout"
+      <Button
+        v-if="userEmail !== ''"
+        class="p-button-danger"
+        @click="handleLogout"
         >로그아웃</Button
       >
     </div>
@@ -50,9 +53,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import Button from "primevue/button";
 import { useBaseRouter } from "../../router/useBaseRouters.ts";
+import {
+  checkIsLoggedIn,
+  getEmailWithExpiry,
+} from "../../utils/local_storage_utils.ts";
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
 
 const {
   navigateToWishlist,
@@ -62,30 +72,31 @@ const {
   navigateToSignIn,
 } = useBaseRouter();
 
-// 사용자 상태 관리
 const userEmail = ref("");
-const isLoggedIn = computed(() => !!userEmail.value); // 이메일이 있으면 로그인 상태
 
 // 로그아웃 처리
 const handleLogout = () => {
   localStorage.removeItem("is_logged_in"); // 로그인 상태 제거
+  localStorage.removeItem("remember_me");
   userEmail.value = "";
-  alert("로그아웃 되었습니다.");
+  showLogout();
   navigateToSignIn();
+};
+
+const showLogout = () => {
+  toast.add({
+    severity: "secondary",
+    summary: "로그아웃",
+    life: 2000,
+  });
 };
 
 // 사용자 정보 로드
 onMounted(() => {
-  const loggedInData = JSON.parse(localStorage.getItem("is_logged_in"));
-  const currentTime = new Date().getTime();
-
-  if (loggedInData && currentTime < loggedInData.expiresAt) {
-    // 로그인 상태일 경우 사용자 이메일 표시
-    userEmail.value = localStorage.getItem("email") || "";
-  } else {
-    // 로그인 상태가 아니면 로그인 페이지로 이동
+  if (!checkIsLoggedIn()) {
     navigateToSignIn();
   }
+  userEmail.value = getEmailWithExpiry("is_logged_in");
 });
 </script>
 

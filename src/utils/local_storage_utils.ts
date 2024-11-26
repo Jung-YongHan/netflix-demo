@@ -1,14 +1,15 @@
 import router from "../router";
 
-export function setWithExpiry(key: string, expiryTime: number) {
+export function setEmailWithExpiry(email: string, expiryTime: number) {
   const currentTime = new Date().getTime();
   const data = {
+    email: email,
     expiresAt: currentTime + expiryTime, // 현재 시간 + 만료 시간(ms)
   };
-  localStorage.setItem(key, JSON.stringify(data));
+  localStorage.setItem("is_logged_in", JSON.stringify(data));
 }
 
-export function getWithExpiry(key: string) {
+export function getEmailWithExpiry(key: string) {
   const itemStr = localStorage.getItem(key);
 
   if (!itemStr) {
@@ -26,21 +27,19 @@ export function getWithExpiry(key: string) {
   }
 
   // 만료되지 않았다면 value 반환
-  return item.expiresAt;
+  return item.email;
 }
 
 export function checkIsLoggedIn() {
   const rememberMe = localStorage.getItem("remember_me");
-  const isLoggedIn = getWithExpiry("is_logged_in");
-  console.log(rememberMe);
-  console.log(isLoggedIn);
+  const email = getEmailWithExpiry("is_logged_in");
   if (
-    (rememberMe === "true" && isLoggedIn === null) ||
-    (rememberMe !== "true" && isLoggedIn === null)
+    (rememberMe === "true" && email === null) ||
+    (rememberMe !== "true" && email === null)
   ) {
     localStorage.removeItem("remember_me");
-    router.push({ name: "SigninPage" });
+    return false;
   } else {
-    router.push({ name: "MainPage" });
+    return true;
   }
 }
