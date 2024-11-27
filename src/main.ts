@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import "./assets/style.css";
 import App from "./App.vue";
 import router from "./router";
 import "bootstrap";
@@ -8,6 +7,7 @@ import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";
 import { createPinia } from "pinia";
 import axios from "axios";
+import ToastService from 'primevue/toastservice';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -20,7 +20,7 @@ app
     },
   })
   .use(pinia)
-  .use(axios)
+  .use(ToastService)
   .mount("#app");
 
 app.config.globalProperties.axios = axios;
