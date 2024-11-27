@@ -85,7 +85,7 @@ import FloatLabel from "primevue/floatlabel";
 import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
-import { useBaseRouter } from "@/router/useBaseRouters.ts";
+import { useBaseRouter } from "../../router/useBaseRouters.ts";
 import { useToast } from "primevue/usetoast";
 
 const toast = useToast();
