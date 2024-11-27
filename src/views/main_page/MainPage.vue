@@ -123,10 +123,11 @@ import { MovieService } from "../../service/movie_service.ts";
 import { IMAGE_BASE_URL } from "../../service/config.ts";
 import Carousel from "primevue/carousel";
 import ProgressSpinner from "primevue/progressspinner";
+import { MovieType } from "../../type/movie_type.ts";
 
 const { navigateToSignIn } = useBaseRouter();
 
-const mainMovie = ref(null);
+const mainMovie = ref<MovieType>();
 const popularMovies = ref([]);
 const latestMovies = ref([]);
 const actionMovies = ref([]);

@@ -23,11 +23,7 @@ export class MovieService {
         page: page,
       },
     };
-    try {
-      return apiClient.get(url, data);
-    } catch (error) {
-      return null;
-    }
+    return apiClient.get(url, data);
   }
 
   async getMovieDataByGenre(page: number, sort_by: string) {
@@ -40,10 +36,6 @@ export class MovieService {
         page: page,
       },
     };
-    try {
-      return apiClient.get(url, data);
-    } catch (error) {
-      return null;
-    }
+    return apiClient.get(url, data);
   }
 }
