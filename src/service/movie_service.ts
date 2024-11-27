@@ -15,17 +15,29 @@ export class MovieService {
   }
 
   async getMovieData(page: number, sort_by: string) {
-    const url = API_URL + "discover/movie";
+    const url = API_URL + `movie/${sort_by}`;
     const data = {
       params: {
         api_key: API_KEY,
         language: "ko-KR",
-        sort_by: sort_by,
-        include_adult: false,
-        include_video: false,
         page: page,
-        with_watch_providers: "providers:8",
-        with_watch_monetization_types: "flatrate",
+      },
+    };
+    try {
+      return apiClient.get(url, data);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async getMovieDataByGenre(page: number, sort_by: string) {
+    const url = API_URL + `/discover/movie`;
+    const data = {
+      params: {
+        api_key: API_KEY,
+        sort_by: sort_by,
+        language: "ko-KR",
+        page: page,
       },
     };
     try {
