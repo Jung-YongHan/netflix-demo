@@ -1,8 +1,9 @@
 <template>
   <Header />
-  <div v-if="popularMovies.length > 0" class="main-page">
+  <div v-if="isLoaded" class="main-page">
     <!-- 메인 영화 섹션 -->
     <section
+      v-if="mainMovie"
       class="main-movie-section"
       :style="{
         backgroundImage: `url(${IMAGE_BASE_URL + mainMovie.poster_path})`,
@@ -105,6 +106,12 @@
       </Carousel>
     </section>
   </div>
+  <div v-else-if="!isLoaded && errorMessage === ''" class="main-page">
+    <ProgressSpinner class="loading-spinner" />
+  </div>
+  <div v-else class="main-page">
+    <h1 class="error">{{ errorMessage }}</h1>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -115,6 +122,7 @@ import { useBaseRouter } from "../../router/useBaseRouters.ts";
 import { MovieService } from "../../service/movie_service.ts";
 import { IMAGE_BASE_URL } from "../../service/config.ts";
 import Carousel from "primevue/carousel";
+import ProgressSpinner from "primevue/progressspinner";
 
 const { navigateToSignIn } = useBaseRouter();
 
@@ -123,6 +131,9 @@ const popularMovies = ref([]);
 const latestMovies = ref([]);
 const actionMovies = ref([]);
 const horrorMovies = ref([]);
+
+const errorMessage = ref("");
+const isLoaded = ref(false);
 
 const getPopularMovies = async () => {
   const response = await MovieService.getInstance().getMovieData(1, "popular");
@@ -155,10 +166,16 @@ const getHorrorMovies = async () => {
 };
 
 const getMovieData = async () => {
-  await getPopularMovies();
-  await getReleaseMovies();
-  await getActionMovies();
-  await getHorrorMovies();
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  try {
+    await getPopularMovies();
+    await getReleaseMovies();
+    await getActionMovies();
+    await getHorrorMovies();
+  } catch (error) {
+    errorMessage.value = "문제가 발생하였습니다.";
+  }
+  isLoaded.value = true;
 };
 
 onMounted(async () => {
@@ -174,6 +191,27 @@ onMounted(async () => {
   background-color: #141414;
   color: white;
   padding-bottom: 40px;
+  min-height: 100vh;
+}
+
+.main-page .loading-spinner {
+  background-color: #141414;
+  color: white;
+  padding-bottom: 40px;
+  min-height: 100vh;
+  display: flex; /* Flex 컨테이너로 설정 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center;
+}
+
+.main-page .error {
+  background-color: #141414;
+  color: white;
+  padding-bottom: 40px;
+  min-height: 100vh;
+  display: flex; /* Flex 컨테이너로 설정 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center;
 }
 
 /* 메인 영화 섹션 */
