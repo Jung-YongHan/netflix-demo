@@ -116,11 +116,11 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { checkIsLoggedIn } from "../../utils/local_storage_utils.ts";
-import Header from "../components/Header.vue";
-import { useBaseRouter } from "../../router/useBaseRouters.ts";
-import { MovieService } from "../../service/movie_service.ts";
-import { IMAGE_BASE_URL } from "../../service/config.ts";
+import { checkIsLoggedIn } from "@/utils/local_storage_utils.ts";
+import Header from "@/views/components/Header.vue";
+import { useBaseRouter } from "@/router/useBaseRouters.ts";
+import { MovieService } from "@/service/movie_service.ts";
+import { IMAGE_BASE_URL } from "@/service/config.ts";
 import Carousel from "primevue/carousel";
 import ProgressSpinner from "primevue/progressspinner";
 
